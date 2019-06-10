@@ -12,4 +12,9 @@
 echo "Setuid files:"
 echo "============="
 find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 3
-echo ""
+echo "Setgid files"
+echo "=============="
+find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 3
+echo "10 largest files in the system"
+echo "================================="
+find / -type f -exec ls --block-size=M {} + 2>/dev/null | sort -n -r | head -10
