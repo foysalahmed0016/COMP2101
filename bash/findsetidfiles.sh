@@ -17,4 +17,4 @@ echo "=============="
 find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 3
 echo "10 largest files in the system"
 echo "================================="
-find / -type f -exec ls --block-size=M {} + 2>/dev/null | sort -n -r | head -10
+find /home/ -type f -exec ls -alh --block-size=M {} + 2>/dev/null | sort -n -r -k5 | head -10
