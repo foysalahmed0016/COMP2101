@@ -28,7 +28,7 @@ test -d ~/Pictures || mkdir ~/Pictures
 # download a tgzfile of pictures to our Pictures directory if it isn't already there - assumes you are online
 test -f ~/Pictures/pics.tgz || wget -q -O ~/Pictures/pics.tgz http://zonzorp.net/pics.tgz
 
-# unpack the downloaded tgzfile if it is there, then delete the local copy of the zipfile
+# unpack the downloaded tgzfile if it is there, then delete the local copy of the tgzfile
 test -f ~/Pictures/pics.tgz && tar -x -z -f ~/Pictures/pics.tgz -C ~/Pictures && rm ~/Pictures/pics.tgz
 
 # Make a report on what we have in the Pictures directory
