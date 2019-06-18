@@ -13,13 +13,13 @@ titles=("OverLord" "Achiever" "Warrior" "Kind Soul" "Tall" "Happy Kid" "Finisher
 number=$(( ${#titles[@]} ))
 var_random=$(( RANDOM % number ))
 hostname=$(hostname)
-time=$(date + '%I:%M %p')
-day=$(date + '%A')
+time=$(date +'%I:%M %p')
+day=$(date +%A)
 
 ###############
 # Main        #
 ###############
 
 
-cowsay Welcome to planet $hostname, "${titles[$var_random]} $USER!"
-The time is TIME:$time on a DAY:$day.
+cowsay "Welcome to planet $hostname, "${titles[$var_random]} $USER!"
+The time is $time on a $day."
