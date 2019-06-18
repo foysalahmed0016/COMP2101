@@ -31,7 +31,6 @@
 # this command is ugly done this way, so generating the output data into variables is recommended to make the script more readable.
 # e.g.
 
-#Variables:
 
 interfaces=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 
@@ -39,10 +38,24 @@ interfaces=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 
 cat <<EOF
 Hostname        : $(hostname)
+
 LAN Address     : $(ip a s $interfaces | awk '/inet /{gsub(/\/.*/,"");print $2}')
+
 LAN Hostname    : $(getent hosts "$(ip a s $interfaces|awk -F '[/ ]+' '/inet /{print $3}')" | awk '{print $2}')
+
 External IP     : $(curl -s icanhazip.com)
+
 External Name   : $(getent hosts "$(curl -s icanhazip.com)" | awk '{print $2}')
+
+#Task 2 :
+
 Router Address  : $(ip route | grep default | awk '{print $3}')
+
 Router hostname : $(getent hosts "$(ip route | grep default | awk '{print $3}')"| awk '{print $2}')
+
+#Task 3 :
+
+Network Number  : $(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")
+
+Network Name    : $(getent networks "$(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")"|awk '{print $1}')
 EOF
