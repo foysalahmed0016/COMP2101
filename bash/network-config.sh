@@ -33,6 +33,8 @@
 
 
 interfaces=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
+netnum=$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)
+router=$(ip route | grep default | awk '{print $3}')
 
 #Main Program
 
@@ -49,13 +51,13 @@ External Name   : $(getent hosts "$(curl -s icanhazip.com)" | awk '{print $2}')
 
 #Task 2 :
 
-Router Address  : $(ip route | grep default | awk '{print $3}')
+Router Address  : $router
 
-Router hostname : $(getent hosts "$(ip route | grep default | awk '{print $3}')"| awk '{print $2}')
+Router hostname : $(getent hosts $router | awk '{print $2}')
 
 #Task 3 :
 
-Network Number  : $(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")
+Network Number  : $(cut -d / -f 1 <<<$netnum)
 
-Network Name    : $(getent networks "$(cut -d / -f 1 <<<"$(ip route list dev $interfaces scope link|cut -d ' ' -f 1)")"|awk '{print $1}')
+Network Name    : $(getent networks "$(cut -d / -f 1 <<<$netnum)"|awk '{print $1}')
 EOF
