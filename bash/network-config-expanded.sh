@@ -56,17 +56,20 @@ do
       awk -v z=$w 'NR==z{print $1; exit}')
   if [[ $interface = lo* ]] ; then continue ; fi
 
-  ipv4_address=$(ip a s $interface | awk -F '[/ ]+' '/inet /{print $3}')
-  ipv4_hostname=$(getent hosts $ipv4_address | awk '{print $2}')
-  network_address=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
-  network_number=$(cut -d / -f 1 <<<"$network_address")
-  network_name=$(getent networks $network_number|awk '{print $1}')
+  lan_address=$(ip a s $interface | awk -F '[/ ]+' '/inet /{print $3}')
+  lan_hostname=$(getent hosts $lan_address | awk '{print $2}')
+  network_addr=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
+  net_num=$(cut -d / -f 1 <<<"$network_addr")
+  network_name=$(getent networks $net_num|awk '{print $1}')
 
-  echo Interface $interface:
-  echo ===============
-  echo Address         : $ipv4_address
-  echo Name            : $ipv4_hostname
-  echo Network Address : $network_address
-  echo Network Name    : $network_name
+cat << EOF
+Interface $interface:
+===============
+Address         : $lan_address
+Name            : $lan_hostname
+Network Address : $network_addr
+Network Name    : $network_name
+
+EOF
 
 done
